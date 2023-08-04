@@ -1,12 +1,12 @@
 # Making your own NestJS
 
-It can be a little overwhelming when using [NestJS ]() for the first time. Let's try to understand how some of it's components work.
+It can be a little overwhelming when using [NestJS ](https://nestjs.com/) for the first time. Let's try to understand how some of it's components work.
 
 ## Before you start
 
 I am assuming that you are familiar with NestJS and the features it provides. Most of the features that feels like black magic is achieved with [decorators](https://www.typescriptlang.org/docs/handbook/decorators.html) and [experimental metadata API](https://github.com/rbuckton/reflect-metadata). Make sure you have basic understanding of these.
 
-I've set up the project with necessary config to run the working snippets I am about to share. You can put them in the [playground.ts](./playground.ts) file and run them with the command `npm run playground`. Once you are done playing around with the snippets, you can see all of them coming together in the [lib.ts](./lib.ts) file.
+I've set up [this project](https://github.com/sjsakib/own-nestjs) with necessary config to run the working snippets I am about to share. You can put them in the [playground.ts](https://github.com/sjsakib/own-nestjs/blob/main/playground.ts) file and run them with the command `npm run playground`. Once you are done playing around with the snippets, you can see all of them coming together in the [lib.ts](https://github.com/sjsakib/own-nestjs/blob/main/lib.ts) file.
 
 ## Defining routes
 
