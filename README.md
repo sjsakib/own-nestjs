@@ -87,9 +87,9 @@ class UserRepository {
 
 @Injectable()
 class AuthService {
-  constructor(private readonly authService: UserRepository) {}
+  constructor(private readonly userRepository: UserRepository) {}
   login() {
-    return this.authService.findUser();
+    return this.userRepository.findUser();
   }
 }
 
