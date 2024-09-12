@@ -172,6 +172,6 @@ createApp(AuthRoute);
 
 ## Putting it all together
 
-I've tried to keep the snippets as short and easy to understand as possible. You can see the [lib.ts](/lib.ts) where I've put them together with actual express. And in the [index.ts](./index.ts) there is a working web app using this 'framework'. Their you have it, a nestjs-like framework on top of express under 180 lines of code. It doesn't handle a lot of things of course, but it is a good starting point to understand how a framework like NestJS works under the hood.
+I've tried to keep the snippets as short and easy to understand as possible. You can see the [lib.ts](/lib.ts) where I've put them together with actual express. And in the [index.ts](./index.ts) there is a working web app using this 'framework'. There you have it, a nestjs-like framework on top of express under 180 lines of code. It doesn't handle a lot of things of course, but it is a good starting point to understand how a framework like NestJS works under the hood.
 
-Thanks for reading. Leave a star if you liked it.
+Thanks for reading. Leave a ⭐️ if you liked it.
