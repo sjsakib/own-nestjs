@@ -1,12 +1,12 @@
 # Making your own NestJS
 
-It can be a little overwhelming when using [NestJS ](https://nestjs.com/) for the first time. Let's try to understand how some of it's components work.
+It can be a little overwhelming when using [NestJS ](https://nestjs.com/) for the first time. Let's try to understand how some of its components work.
 
 ## Before you start
 
-I am assuming that you are familiar with NestJS and the features it provides. Most of the features that feels like black magic is achieved with [decorators](https://www.typescriptlang.org/docs/handbook/decorators.html) and [experimental metadata API](https://github.com/rbuckton/reflect-metadata). Make sure you have basic understanding of these.
+I am assuming that you are familiar with NestJS and the features it provides. Most of the features that feel like black magic is achieved with [decorators](https://www.typescriptlang.org/docs/handbook/decorators.html) and [experimental reflection metadata API](https://github.com/rbuckton/reflect-metadata). Make sure you have basic understanding of these.
 
-I've set up [this project](https://github.com/sjsakib/own-nestjs) with necessary config to run the working snippets I am about to share. You can put them in the [playground.ts](https://github.com/sjsakib/own-nestjs/blob/main/playground.ts) file and run them with the command `npm run playground`. Once you are done playing around with the snippets, you can see all of them coming together in the [lib.ts](https://github.com/sjsakib/own-nestjs/blob/main/lib.ts) file.
+I've set up [this project](https://github.com/sjsakib/own-nestjs) with necessary config to run the working snippets I am about to share. You can put them in the [playground.ts](https://github.com/sjsakib/own-nestjs/blob/main/playground.ts) file and run them with the command `npm run playground`. Once you are done playing around with the snippets, you can see all of them coming together in the [lib.ts](https://github.com/sjsakib/own-nestjs/blob/main/lib.ts) file. Highly recommend cloning the repo and following along.
 
 ## Defining routes
 
@@ -45,7 +45,7 @@ function createApp(ControllerCls: any) {
   properties
     .filter(
       (
-        method // keep the ones that as HTTP method metadata
+        method // keep the ones that has HTTP method metadata
       ) => Reflect.hasOwnMetadata(HTTP_METHOD_KEY, ControllerCls.prototype, method)
     )
     .forEach(method => {
@@ -68,9 +68,9 @@ Note that, using [symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScrip
 
 ## Dependency injection
 
-The basic idea of dependency injection is that instead of instantiating the dependencies of a class in the constructor, you pass the dependencies to the constructor. The mystical thing that NestJS does here is, you can define the dependencies in the constructor with shorthand express like `constructor(private service: Service)` and NestJS will do the instantiating and pass it down to the constructor for you. Let's see how something like that is possible.
+The basic idea of dependency injection is that instead of instantiating the dependencies of a class in the constructor, you pass the dependencies to the constructor. The mystical thing that NestJS does here is, you can define the dependencies in the constructor with shorthand expression like `constructor(private service: Service)` and NestJS will do the instantiating and pass it down to the constructor for you. Let's see how something like that is possible.
 
-Again metadata API comes into play. The parameters of a constructors is available with the `design:paramtypes` key in the metadata. The catch is that, the class has to be decorated with at least one decorator. Otherwise typescript will not record the parameter data while transpiling to runnable javascript. This is where the `@Injectable()` decorator comes into play. You might have noticed that NestJS will have you decorate the controllers with the `Controller()` decorator even when no controller prefix is required. This is because all classes need to be decorated with at least one decorator in order for them to be instantiated with correct params.
+Again metadata API comes into play. The parameters of a constructor are available with the `design:paramtypes` key in the metadata. The catch is that, the class has to be decorated with at least one decorator. Otherwise typescript will not record the parameter data while transpiling to runnable javascript. This is where the `@Injectable()` decorator comes into play. You might have noticed that NestJS will have you decorate the controllers with the `Controller()` decorator even when no controller prefix is required. This is because all classes need to be decorated with at least one decorator in order for them to be instantiated with correct params.
 
 ```ts
 import 'reflect-metadata';
@@ -95,6 +95,7 @@ class AuthService {
 
 function instantiate(ProviderCls: any) {
   const params = Reflect.getMetadata('design:paramtypes', ProviderCls).map(
+    // for simplicity, ignoring more complex cases like params, singleton, scopes, etc.
     DependencyCls => new DependencyCls()
   );
 
@@ -110,7 +111,7 @@ Note that, it didn't need to be a decorator factory, since it is not taking para
 
 ## What about passing data down to the route handlers?
 
-With a similar technique, parameters can be decorated to indicate what kind of data is needed in that parameter, and then the framework can pass down the appropriate data, taking form the underlying platform.
+With a similar technique, parameters can be decorated to indicate what kind of data is needed in that parameter, and then the framework can pass down the appropriate data, taking from the underlying platform.
 
 ```ts
 import 'reflect-metadata';
@@ -149,7 +150,7 @@ function createApp(ControllerCls: any) {
       Reflect.hasOwnMetadata(HTTP_METHOD_KEY, ControllerCls.prototype, method)
     )
     .forEach(method => {
-      const PARAM_DATA = { id: '123' }; // could get from req.params
+      const PARAM_DATA = { id: '123' }; // e.g. req.params from express
 
       const paramsMeta =
         Reflect.getMetadata(PARAMS_META_KEY, ControllerCls.prototype, method) ?? {};
@@ -172,6 +173,6 @@ createApp(AuthRoute);
 
 ## Putting it all together
 
-I've tried to keep the snippets as short and easy to understand as possible. You can see the [lib.ts](/lib.ts) where I've put them together with actual express. And in the [index.ts](./index.ts) there is a working web app using this 'framework'. There you have it, a nestjs-like framework on top of express under 180 lines of code. It doesn't handle a lot of things of course, but it is a good starting point to understand how a framework like NestJS works under the hood.
+I've tried to keep the snippets as short and easy to understand as possible. You can see the [lib.ts](./lib.ts) where I've put them together with actual express. And in the [index.ts](./index.ts) there is a working web app using this 'framework'. There you have it, a nestjs-like framework on top of express under 180 lines of code. It doesn't handle a lot of things of course, but it is a good starting point to understand how a framework like NestJS works under the hood.
 
 Thanks for reading. Leave a ⭐️ if you liked it.

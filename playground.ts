@@ -30,7 +30,7 @@ function createApp(ControllerCls: any) {
   properties
     .filter(
       (
-        method // keep the ones that as HTTP method metadata
+        method // keep the ones that has HTTP method metadata
       ) => Reflect.hasOwnMetadata(HTTP_METHOD_KEY, ControllerCls.prototype, method)
     )
     .forEach(method => {

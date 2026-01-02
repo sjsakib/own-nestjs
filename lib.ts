@@ -147,6 +147,7 @@ export function createApp(module: ClassType) {
         const path = Reflect.getMetadata(PATH_KEY, controller, method);
         const fullPath = `${prefix}${path}`;
 
+        // now we have everything to create an actual express route
         app[httpMethod](fullPath, async (req: Request, res: Response) => {
           const params = Reflect.getMetadata(
             // get all the params first
